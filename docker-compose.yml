@@ -1,0 +1,31 @@
+version: "3.6"
+
+services:
+  robin:
+    build: .
+    container_name: robin-api
+    environment:
+      PGUSER: robin
+      PGPASSWORD: robin
+      PGDATABASE: robin
+      PGHOST: robindb
+      PGPORT: 5432
+      DB: postgres
+      DATABASE_URL: "host=robindb port=5432 user=robin dbname=robin password=robin sslmode=disable"
+    expose:
+      - 5001
+    ports:
+      - 5001:5001
+      - 9229:9229
+    depends_on:
+      - robindb
+
+  robindb:
+    container_name: robin-db
+    image: postgres:11.4
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: robin
+      POSTGRES_PASSWORD: robin
+      POSTGRES_DB: robin

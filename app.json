@@ -1,0 +1,16 @@
+{
+    "name": "robin",
+    "description": "Robin Account",
+    "keywords": [
+        "Robin",
+        "Go",
+        "Golang"
+    ],
+    "website": "http://github.com/julioc98/robin",
+    "repository": "http://github.com/julioc98/robin",
+    "addons": [
+        {
+          "plan": "heroku-postgresql:hobby-dev"
+        }
+      ]
+}
