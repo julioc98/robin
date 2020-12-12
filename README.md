@@ -1,6 +1,6 @@
 # Robin
 
-[Acesse a API](https://robin-api.herokuapp.com/)
+[Acesse a API](https://robin-platform.herokuapp.com/)
 
 ### Pré-requisitos
 
