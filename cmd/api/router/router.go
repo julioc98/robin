@@ -16,3 +16,8 @@ func SetTransactionRoutes(th handler.TransactionHandler, r *mux.Router) {
 	r.HandleFunc("", th.Add).Methods("POST")
 	r.HandleFunc("/{id:[0-9]+}", th.FindByID).Methods("GET")
 }
+
+// SetIntegrationRoutes add routes from Integrations
+func SetIntegrationRoutes(th handler.IntegrationHandler, r *mux.Router) {
+	r.HandleFunc("/status", th.Status).Methods("GET")
+}
