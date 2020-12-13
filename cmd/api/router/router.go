@@ -9,7 +9,7 @@ import (
 func SetAccountRoutes(ah handler.AccountHandler, r *mux.Router) {
 	r.HandleFunc("", ah.Add).Methods("POST")
 	r.HandleFunc("/auth", ah.FindByEmailAndPassword).Methods("POST")
-	r.HandleFunc("/{id:[0-9]+}", ah.FindByID).Methods("GET")
+	r.HandleFunc("/{id}", ah.FindByID).Methods("GET")
 }
 
 // SetTransactionRoutes add routes from Transaction

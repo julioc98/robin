@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/julioc98/robin/internal/app/entity"
+	"github.com/julioc98/robin/internal/app/transaction"
 )
 
 // IntegrationHandler Interface
@@ -14,15 +15,12 @@ type IntegrationHandler interface {
 	AddPurchase(w http.ResponseWriter, r *http.Request)
 }
 
-// IntegrationService Interface
-type IntegrationService interface{}
-
 type integrationHandler struct {
-	integrationService IntegrationService
+	integrationService transaction.Service
 }
 
 // NewIntegrationHandler Create a new handler
-func NewIntegrationHandler(integrationService IntegrationService) IntegrationHandler {
+func NewIntegrationHandler(integrationService transaction.Service) IntegrationHandler {
 	return &integrationHandler{
 		integrationService: integrationService,
 	}
@@ -47,12 +45,40 @@ func (ah *integrationHandler) AddPurchase(w http.ResponseWriter, r *http.Request
 		return
 	}
 
-	// id, err := ah.accountService.Create(&req)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusInternalServerError)
-	// 	return
+	// type Transaction struct {
+	// 	ID            int            `gorm:"primary_key" json:"id"`
+	// 	AccountID     string         `json:"account_id"`
+	// 	Account       entity.Account `json:"account"`
+	// 	OperationID   int            `json:"operation_type_id"`
+	// 	Operation     Operation      `json:"operation"`
+	// 	Amount        int            `json:"amount"`
+	// 	Category      string         `json:"category"`
+	// 	Subcategory   string         `json:"subcategory"`
+	// 	PurchaseID    string         `json:"purchase_id"`
+	// 	PsProductCode string         `json:"psProductCode"`
+	// 	PsProductName string         `json:"psProductName"`
+	// 	ForceAccept   bool           `json:"forceAccept"`
+	// 	CreatedAt     time.Time      `json:"createdAt"`
 	// }
-	authCode, amount := 322169, 200000
+
+	trsct := &transaction.Transaction{
+		AccountID:   req.AccountID,
+		OperationID: 4,
+		Amount:      req.TotalAmount.Amount,
+		Category:    "ESSENTIAL",
+		// Subcategory: req.Establishment.Mcc,
+		PurchaseID:    req.PurchaseID,
+		PsProductCode: req.PsProductCode,
+		PsProductName: req.PsProductName,
+		ForceAccept:   req.ForceAccept,
+	}
+
+	id, err := ah.integrationService.Create(trsct)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	amount := 200000
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
@@ -64,5 +90,5 @@ func (ah *integrationHandler) AddPurchase(w http.ResponseWriter, r *http.Request
 			"amount": %d,
 			"currency_code": 986
 		}
-	}`, authCode, amount)))
+	}`, id, amount)))
 }

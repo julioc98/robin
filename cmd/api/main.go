@@ -51,9 +51,7 @@ func main() {
 	transactionHandler := handler.NewTransactionHandler(transactionService)
 	router.SetTransactionRoutes(transactionHandler, r.PathPrefix("/transactions").Subrouter())
 
-	var integration struct{}
-
-	integrationHandler := handler.NewIntegrationHandler(integration)
+	integrationHandler := handler.NewIntegrationHandler(transactionService)
 	router.SetIntegrationRoutes(integrationHandler, r.PathPrefix("/integrations").Subrouter())
 
 	r.HandleFunc("/", handlerHi)

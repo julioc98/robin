@@ -12,7 +12,7 @@ func Migrate(conn *gorm.DB) {
 	conn.AutoMigrate(&entity.Account{}, &transaction.Operation{}, &transaction.Transaction{})
 
 	// Create an Account
-	conn.Create(&entity.Account{Email: "admin@admin.com", Password: "admin", ID: "1", DocumentNumber: "54010024992"})
+	// conn.Create(&entity.Account{Email: "admin@admin.com", Password: "admin", ID: "1", DocumentNumber: "54010024992"})
 
 	// Create Operactions
 	conn.Create(&transaction.Operation{ID: 1, Description: "CASH-IN"})
@@ -21,9 +21,9 @@ func Migrate(conn *gorm.DB) {
 	conn.Create(&transaction.Operation{ID: 4, Description: "CASH-OUT"})
 
 	//Create a Transaction
-	conn.Create(&transaction.Transaction{
-		AccountID:   "1",
-		OperationID: 1,
-		Amount:      5000,
-	})
+	// conn.Create(&transaction.Transaction{
+	// 	AccountID:   "1",
+	// 	OperationID: 1,
+	// 	Amount:      5000,
+	// })
 }
