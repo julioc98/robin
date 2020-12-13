@@ -8,6 +8,7 @@ import (
 // SetAccountRoutes add routes from Account
 func SetAccountRoutes(ah handler.AccountHandler, r *mux.Router) {
 	r.HandleFunc("", ah.Add).Methods("POST")
+	r.HandleFunc("/auth", ah.FindByEmailAndPassword).Methods("POST")
 	r.HandleFunc("/{id:[0-9]+}", ah.FindByID).Methods("GET")
 }
 
@@ -21,5 +22,4 @@ func SetTransactionRoutes(th handler.TransactionHandler, r *mux.Router) {
 func SetIntegrationRoutes(th handler.IntegrationHandler, r *mux.Router) {
 	r.HandleFunc("/status", th.Status).Methods("GET")
 	r.HandleFunc("/purchases", th.AddPurchase).Methods("POST")
-
 }

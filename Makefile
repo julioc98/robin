@@ -10,5 +10,11 @@ run/api:
 run/db:
 	docker-compose up robindb
 
+run/adminer:
+	docker-compose up adminer
+
 run/docker:
 	docker-compose up --build
+
+clean/docker:
+	docker-compose down 
