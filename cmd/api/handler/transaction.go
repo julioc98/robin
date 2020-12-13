@@ -14,6 +14,7 @@ import (
 type TransactionHandler interface {
 	Add(w http.ResponseWriter, r *http.Request)
 	FindByID(w http.ResponseWriter, r *http.Request)
+	GetFounds(w http.ResponseWriter, r *http.Request)
 }
 
 type transactionHandler struct {
@@ -35,8 +36,15 @@ func (th *transactionHandler) Add(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	var id int
+	if req.OperationID != 1 {
+		id, err = th.TransactionService.Create(&req)
+	}
 
-	id, err := th.TransactionService.Create(&req)
+	if req.OperationID == 1 {
+		id, err = th.TransactionService.AddFunds(&req)
+	}
+
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
@@ -62,6 +70,28 @@ func (th *transactionHandler) FindByID(w http.ResponseWriter, r *http.Request) {
 	}
 
 	response, err := json.Marshal(Transaction)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
+	w.Write(response)
+
+}
+
+// GetFounds a Transaction
+func (th *transactionHandler) GetFounds(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+
+	transaction, err := th.TransactionService.GetFounds(id)
+	if err != nil {
+		w.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	response, err := json.Marshal(transaction)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return

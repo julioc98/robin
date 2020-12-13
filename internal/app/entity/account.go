@@ -4,7 +4,7 @@ import "time"
 
 // Account ...
 type Account struct {
-	ID             int         `gorm:"primary_key" json:"accountId"`
+	ID             string      `gorm:"primary_key" json:"accountId"`
 	Name           string      `json:"name"`
 	Email          string      `gorm:"index" json:"email"`
 	DocumentNumber string      `json:"documentNumber,omitempty"`

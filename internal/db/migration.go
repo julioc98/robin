@@ -12,18 +12,18 @@ func Migrate(conn *gorm.DB) {
 	conn.AutoMigrate(&entity.Account{}, &transaction.Operation{}, &transaction.Transaction{})
 
 	// Create an Account
-	conn.Create(&entity.Account{DocumentNumber: "54010024992"})
+	conn.Create(&entity.Account{ID: "1", DocumentNumber: "54010024992"})
 
 	// Create Operactions
-	conn.Create(&transaction.Operation{ID: 1, Description: "COMPRA A VISTA"})
-	conn.Create(&transaction.Operation{ID: 2, Description: "COMPRA PARCELADA"})
-	conn.Create(&transaction.Operation{ID: 3, Description: "SAQUE"})
-	conn.Create(&transaction.Operation{ID: 4, Description: "PAGAMENTO"})
+	conn.Create(&transaction.Operation{ID: 1, Description: "CASH-IN"})
+	conn.Create(&transaction.Operation{ID: 2, Description: "CHARGEBACK"})
+	conn.Create(&transaction.Operation{ID: 3, Description: "CANCEL"})
+	conn.Create(&transaction.Operation{ID: 4, Description: "CASH-OUT"})
 
 	//Create a Transaction
 	conn.Create(&transaction.Transaction{
-		AccountID:   1,
+		AccountID:   "1",
 		OperationID: 1,
-		Amount:      -50.55,
+		Amount:      5000,
 	})
 }

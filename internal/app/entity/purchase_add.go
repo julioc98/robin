@@ -128,3 +128,14 @@ type PurchaseAdd struct {
 		ScoreOriginIndicator        int    `json:"scoreOriginIndicator"`
 	} `json:"fraudData"`
 }
+
+// PurchaseAddResponse ...
+type PurchaseAddResponse struct {
+	Message         string `json:"message"`
+	Code            int    `json:"code"`
+	AuthorizationID int    `json:"authorization_id"`
+	Balance         struct {
+		Amount       int `json:"amount"`
+		CurrencyCode int `json:"currency_code"`
+	} `json:"balance"`
+}

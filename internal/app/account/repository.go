@@ -17,15 +17,15 @@ func NewPostgresRepository(db *gorm.DB) Repository {
 }
 
 // Create Account
-func (r *postgresRepository) Create(a *entity.Account) (int, error) {
+func (r *postgresRepository) Create(a *entity.Account) (string, error) {
 	if dbc := r.db.Create(a); dbc.Error != nil {
-		return 0, dbc.Error
+		return "", dbc.Error
 	}
 	return a.ID, nil
 }
 
 // Get Account
-func (r *postgresRepository) Get(id int) (*entity.Account, error) {
+func (r *postgresRepository) Get(id string) (*entity.Account, error) {
 	var account entity.Account
 	if dbc := r.db.First(&account, id); dbc.Error != nil {
 		return nil, dbc.Error

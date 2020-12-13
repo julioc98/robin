@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/gorilla/mux"
 	"github.com/julioc98/robin/internal/app/account"
@@ -46,15 +45,15 @@ func (ah *accountHandler) Add(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
-	w.Write([]byte(fmt.Sprintf(`{ "account_id": %d }`, id)))
+	w.Write([]byte(fmt.Sprintf(`{ "account_id": %s }`, id)))
 }
 
 // FindByID a Account
 func (ah *accountHandler) FindByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	id, err := strconv.Atoi(vars["id"])
-	if err != nil {
-		w.WriteHeader(http.StatusNotFound)
+	id := vars["id"]
+	if id == "" {
+		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 	account, err := ah.accountService.Get(id)

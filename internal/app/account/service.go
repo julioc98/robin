@@ -19,16 +19,16 @@ func NewService(r Repository, gateway processor.Gateway) Service {
 }
 
 // Create a Account
-func (s service) Create(a *entity.Account) (int, error) {
+func (s service) Create(a *entity.Account) (string, error) {
 	externalID, err := s.gateway.CreateAccount(a)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	a.ExternalID = externalID
-
+	a.ID = externalID
 	virtualCard, err := s.gateway.CreateVirtualCard(externalID)
 	if err != nil {
-		return 0, err
+		return "", err
 	}
 	a.VirtualCard = *virtualCard
 
@@ -36,7 +36,7 @@ func (s service) Create(a *entity.Account) (int, error) {
 }
 
 // Get a Account
-func (s service) Get(id int) (*entity.Account, error) {
+func (s service) Get(id string) (*entity.Account, error) {
 	return s.repo.Get(id)
 }
 
