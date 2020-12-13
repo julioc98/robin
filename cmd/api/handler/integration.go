@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/julioc98/robin/internal/app/entity"
@@ -32,7 +33,7 @@ func (ah *integrationHandler) Status(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(`{
 		"message": "Operação realizada com sucesso.",
-		"code": 0
+		"code": 00
 	  }`))
 }
 
@@ -41,25 +42,10 @@ func (ah *integrationHandler) AddPurchase(w http.ResponseWriter, r *http.Request
 	var req entity.PurchaseAdd
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
+		log.Println("[ERROR]", err.Error())
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	// type Transaction struct {
-	// 	ID            int            `gorm:"primary_key" json:"id"`
-	// 	AccountID     string         `json:"account_id"`
-	// 	Account       entity.Account `json:"account"`
-	// 	OperationID   int            `json:"operation_type_id"`
-	// 	Operation     Operation      `json:"operation"`
-	// 	Amount        int            `json:"amount"`
-	// 	Category      string         `json:"category"`
-	// 	Subcategory   string         `json:"subcategory"`
-	// 	PurchaseID    string         `json:"purchase_id"`
-	// 	PsProductCode string         `json:"psProductCode"`
-	// 	PsProductName string         `json:"psProductName"`
-	// 	ForceAccept   bool           `json:"forceAccept"`
-	// 	CreatedAt     time.Time      `json:"createdAt"`
-	// }
 
 	trsct := &transaction.Transaction{
 		AccountID:   req.AccountID,
@@ -84,7 +70,7 @@ func (ah *integrationHandler) AddPurchase(w http.ResponseWriter, r *http.Request
 	w.WriteHeader(http.StatusCreated)
 	w.Write([]byte(fmt.Sprintf(`{
 		"message": "Operação realizada com sucesso.",
-		"code": 0,
+		"code": 00,
 		"authorization_id": %d,
 		"balance": {
 			"amount": %d,
