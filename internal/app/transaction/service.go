@@ -85,3 +85,7 @@ func (s service) GetFounds(accountID string) ([]entity.Found, error) {
 
 	return founds, nil
 }
+
+func (s service) GetFoundByCategory(accountID, category string) (int, error) {
+	return s.repo.GetFounds(accountID, category)
+}

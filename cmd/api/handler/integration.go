@@ -59,12 +59,23 @@ func (ah *integrationHandler) AddPurchase(w http.ResponseWriter, r *http.Request
 		ForceAccept:   req.ForceAccept,
 	}
 
+	amount, err := ah.integrationService.GetFoundByCategory(req.AccountID, trsct.Category)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+	log.Println("[AMOUNT]", amount)
+
+	if amount < trsct.Amount {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
 	id, err := ah.integrationService.Create(trsct)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	amount := 200000
 
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)

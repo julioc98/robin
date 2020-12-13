@@ -15,4 +15,5 @@ type Service interface {
 	AddFunds(t *Transaction) (int, error)
 	Create(account *Transaction) (int, error)
 	Get(id int) (*Transaction, error)
+	GetFoundByCategory(accountID, category string) (int, error)
 }
