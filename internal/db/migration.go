@@ -12,7 +12,7 @@ func Migrate(conn *gorm.DB) {
 	conn.AutoMigrate(&entity.Account{}, &transaction.Operation{}, &transaction.Transaction{})
 
 	// Create an Account
-	conn.Create(&entity.Account{ID: "1", DocumentNumber: "54010024992"})
+	conn.Create(&entity.Account{Email: "admin@admin.com", Password: "admin", ID: "1", DocumentNumber: "54010024992"})
 
 	// Create Operactions
 	conn.Create(&transaction.Operation{ID: 1, Description: "CASH-IN"})
