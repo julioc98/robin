@@ -27,7 +27,7 @@ func (r *postgresRepository) Create(a *entity.Account) (string, error) {
 // Get Account
 func (r *postgresRepository) Get(id string) (*entity.Account, error) {
 	var account entity.Account
-	if dbc := r.db.First(&account, id); dbc.Error != nil {
+	if dbc := r.db.Where("id = ?", id).First(&account); dbc.Error != nil {
 		return nil, dbc.Error
 	}
 	return &account, nil

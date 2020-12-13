@@ -3,6 +3,7 @@ package handler
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -52,6 +53,7 @@ func (ah *accountHandler) Add(w http.ResponseWriter, r *http.Request) {
 func (ah *accountHandler) FindByID(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	id := vars["id"]
+	log.Println("[ACCOUNT]", id)
 	if id == "" {
 		w.WriteHeader(http.StatusBadRequest)
 		return
